@@ -130,6 +130,13 @@ def run():
     if digest_file(target) != source_digest:
         return abort("SHA-256 mismatch after copy: " + target)
 
+    target_dimensions = read_jpeg_size(target)
+    if target_dimensions != (width, height):
+        return abort(
+            "output dimensions %s differ from the source %dx%d"
+            % (target_dimensions, width, height)
+        )
+
     print("wrote %s (%d bytes, sha256 %s)" % (target, size, source_digest))
     return 0
 
